@@ -1,7 +1,7 @@
-http = require('http')
+var http = require('http')
 
 // save off args
-url = process.argv[2]
+var url = process.argv[2]
 
 http.get(url, function(resp){
   // resp.statusCode
