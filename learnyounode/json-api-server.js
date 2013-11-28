@@ -3,14 +3,14 @@ var moment = require('moment')
 var url = require('url')
 
 function stringifyTime(now) {
-  var timeString = '{"hour": ' + now.hour() +
-                  ', "minute": ' + now.minute() +
-                  ', "second": ' + now.second() + '}'
+  var timeString = '{"hour":' + now.hour() +
+                  ',"minute":' + now.minute() +
+                  ',"second":' + now.second() + '}'
   return timeString;
 }
 
 function unixifyTime(now) {
-  var timeString = '{"unixtime": ' + now.valueOf() + '}';
+  var timeString = '{"unixtime":' + now.valueOf() + '}';
   return timeString;
 }
 
