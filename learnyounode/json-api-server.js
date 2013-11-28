@@ -2,41 +2,39 @@ var http = require('http')
 var moment = require('moment')
 var url = require('url')
 
-function stringifyTime(now) {
-  var timeString = '{"hour":' + now.hour() +
-                  ',"minute":' + now.minute() +
-                  ',"second":' + now.second() + '}'
-  return timeString;
+function stringifyTime(time) {
+  return {
+    hour: time.hour(),
+    minute: time.minute(),
+    second: time.second()
+  }
 }
 
-function unixifyTime(now) {
-  var timeString = '{"unixtime":' + now.valueOf() + '}';
-  return timeString;
+function unixifyTime(time) {
+  return { unixtime: time.valueOf() }
 }
 
 var server = http.createServer(function(req, resp) {
   if (req.method != 'GET') {
     resp.writeHead(405, {'Allow': 'GET'})
-    resp.end('{"message": "bad method (method != GET)"}')
+    resp.end(JSON.stringify({message: 'bad method (method != GET)'}))
   }
 
-  var hash = url.parse(req.url, true)
-  var fcn = (function(now){ return null });
+  var parsed = url.parse(req.url, true)
+  var result = null
+  var date   = moment(parsed.query.iso)
 
-  switch(hash.pathname) {
+  switch(parsed.pathname) {
     case '/api/parsetime':
-      fcn = stringifyTime;
+      result = stringifyTime(date)
       break;
     case '/api/unixtime':
-      fcn = unixifyTime;
+      result = unixifyTime(date)
       break;
   }
 
-  var dateString = hash.query.iso
-  var dateObj = moment(dateString)
-
   resp.writeHead(200, {'Content-Type': 'application/json'})
-  resp.end(fcn(dateObj))
+  resp.end(JSON.stringify(result))
 })
 
 server.listen(8000)
