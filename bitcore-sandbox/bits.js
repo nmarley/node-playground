@@ -18,6 +18,12 @@ var duplicate_bip32 = new bitcore.BIP32(masterPrivateKeyString);
 // verify that they're the same (should print true)
 console.log(bip32.extendedPublicKeyString() == duplicate_bip32.extendedPublicKeyString());
 
+// key at index m/10
+key = bip32.derive('m/10');
+
+// log public key string of address at index m/10
+console.log(key.extendedPublicKeyString())
+
 // BIP32 => HierarchicalKey
 
 // var key = bitcore.Key.generateSync();
