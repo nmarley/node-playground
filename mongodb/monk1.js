@@ -1,14 +1,11 @@
-var db = require('monk')('localhost/test')
-  , articles = db.get('articles')
+var mongo = require('mongodb')
+var db = require('monk')('localhost/freedom')
+  , collection = db.get('articles')
 
-console.log(articles.id())
+collection.find({}, function(err, articles) {
+  articles.forEach(function(article) {
+    console.log(article._id, article.title)
+  })
 
-// articles.find({}, function(err, docs) {
-//   if (err)
-//     console.log("err: " + err)
-//   else
-//     console.log("Found " + docs.count() + " docs")
-// })
-
-
-db.close()
+  db.close()
+})
